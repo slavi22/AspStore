@@ -1,49 +1,132 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<IdentityUser> signInManager;
+@inject AppDbContext dbContext;
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - AspStore</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AspStore.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/AspStore.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AspStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<header>
+    @if (dbContext.Users.Any() == false)
+    {
+        <div class="modal fade show" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Can't proceed</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span class="text-danger">You haven't completed the first time setup!</span>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-primary" data-bs-dismiss="modal">Complete first time setup</a>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - AspStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    }
+    <nav class="navbar navbar-expand-sm navbar-light bg-white">
+        <div class="container-fluid ms-1">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="indexLink">AspStore</a>
+        </div>
+        <div class="navfont">
+            <ul class="navbar-nav ms-auto me-5">
+                <li class="nav-item align-self-center">
+                    <i class="bi bi-telephone-fill"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="tel:0888888888" class="nav-link text-dark">08&nbsp;88888888</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-3">
+        <div class="container-fluid">
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item align-self-center ms-auto me-auto" id="searchBar">
+                        <input class="form-control" type="text" placeholder="Search any product...">
+                        <i class="bx bx-search"></i>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        //https://stackoverflow.com/a/50845757 - center the dropdown
+                        <div class="dropdown user-dropdown">
+                            <div class="d-flex userProfileContainer justify-content-center" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle" id="userProfileIcon"></i>
+                            </div>
+                            <ul class="dropdown-menu text-center">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPage">Admin</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
+                                        <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else if (signInManager.IsSignedIn(User) && User.IsInRole("User"))
+                    {
+                        <div class="dropdown user-dropdown">
+                            <div class="d-flex userProfileContainer justify-content-center" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle" id="userProfileIcon"></i>
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
+                                        <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <li class="nav-item me-5">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2023 - AspStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

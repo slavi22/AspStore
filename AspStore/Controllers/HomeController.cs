@@ -1,16 +1,21 @@
 ﻿using AspStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using AspStore.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspStore.Controllers
 {
+    [Authorize(Policy = "FirstTimeSetupComplete")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -27,6 +32,17 @@ namespace AspStore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
+        [Authorize(Roles = "User")]
+        public IActionResult UserPage()
+        {
+            return View();
         }
     }
 }

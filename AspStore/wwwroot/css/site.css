@@ -20,3 +20,64 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.navbar{
+  box-shadow:  2px 2px 2px rgb(0, 0, 0, .05);
+}
+
+header,.container{
+  padding: 0 5em 0 5em;
+}
+
+#loginContainer, #registerContainer{
+  height: 45vh;
+}
+
+#loginForm, #registerForm{
+  padding: 2em;
+  border: 1px solid #b3d4fc;
+  width: 35%;
+}
+
+#indexLink{
+  color: #2A568B;
+}
+
+.navfont{
+  font-size: 1.25rem;
+}
+
+#searchBar{
+  width: 90%;
+}
+
+#userProfileIcon{
+  font-size: 2em;
+}
+
+.bi-circle:hover{
+  font-size: 5em;
+  background-color: red;
+}
+
+.user-dropdown .dropdown-menu{
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  top: 100% !important;
+}
+
+.userProfileContainer{
+  transition: background-color 0.25s;
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+}
+
+.userProfileContainer:hover{
+  background-color: rgba(0, 0, 0, .15);
+  cursor: pointer;
+}
+
+#togglePassword{
+  z-index: 3;
+}

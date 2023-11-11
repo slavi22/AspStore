@@ -1,0 +1,31 @@
+@model RegisterModel;
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<div class="d-flex justify-content-center align-items-center" id="registerContainer">
+    <form class="shadow-sm rounded bg-body-tertiary" method="post" id="registerForm">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <div>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control">
+        </div>
+        <div class="mb-3">
+            <div>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control">
+        </div>
+        <div class="mb-4">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+</div>
