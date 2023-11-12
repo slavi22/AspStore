@@ -6,6 +6,18 @@
 <h1>Login</h1>
 
 @*do a sliding image - google bootstrap loop image*@
+<div class="login-sliding-image-container-first">
+    <div class="sliding-image-normal"></div>
+</div>
+
+<div class="login-sliding-image-container-second">
+    <div class="sliding-image-reverse"></div>
+</div>
+
+<div class="login-sliding-image-container-third">
+    <div class="sliding-image-normal"></div>
+</div>
+
 <div class="d-flex justify-content-center align-items-center" id="login-container">
     <form class="shadow-sm rounded bg-body-tertiary" method="post" id="login-form">
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -16,15 +28,15 @@
             <label asp-for="Email" class="form-label"></label>
             <input asp-for="Email" class="form-control">
         </div>
-        <div class="mb-3 position-relative">
+        <div class="mb-3">
             <div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <label asp-for="Password" class="form-label"></label>
             <div class="input-group">
-                <input asp-for="Password" class="form-control">
+                <input asp-for="Password" class="form-control password">
                 <div class="d-flex justify-content-end">
-                    <button class="bi-eye-fill position-absolute btn btn-link text-dark shadow-none" type="button" id="togglePassword"></button>
+                    <button class="bi-eye-fill position-absolute btn btn-link text-dark shadow-none password-icon" tabindex="-1" type="button"></button>
                 </div>
             </div>
         </div>

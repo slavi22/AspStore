@@ -8,7 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function togglePasswordIcons(){
-    $("#togglePassword").click(function () {
-        $(this).toggleClass("bi-eye-fill bi-eye-slash-fill");
+    $(".password-icon").click(function () {
+        let showPasswordToggled = $(".password-icon").hasClass("bi-eye-fill")?"text":"password";
+        $(".password").attr("type", showPasswordToggled);
+        $(".password-icon").toggleClass("bi-eye-fill bi-eye-slash-fill");
     });
 }

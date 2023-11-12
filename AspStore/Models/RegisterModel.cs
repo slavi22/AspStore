@@ -13,6 +13,6 @@ public class RegisterModel
     [Required]
     [DataType(DataType.Password)]
     [Display(Name = "Confirm Password")]
-    [Compare("Password", ErrorMessage ="Password doesn't match!")]
+    [Compare("Password", ErrorMessage ="Passwords don't match!")]
     public string ConfirmPassword { get; set; }
 }

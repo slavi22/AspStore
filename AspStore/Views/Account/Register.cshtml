@@ -20,12 +20,30 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <label asp-for="Password" class="form-label"></label>
-            <input asp-for="Password" class="form-control">
+            <div class="input-group">
+                <input asp-for="Password" class="form-control password">
+                <div class="d-flex justify-content-end">
+                    <button class="bi-eye-fill position-absolute btn btn-link text-dark shadow-none password-icon" tabindex="-1" type="button"></button>
+                </div>
+            </div>
         </div>
         <div class="mb-4">
+            <div>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
             <label asp-for="ConfirmPassword" class="form-label"></label>
-            <input asp-for="ConfirmPassword" class="form-control">
+            <div class="input-group">
+                <input asp-for="ConfirmPassword" class="form-control password">
+                <div class="d-flex justify-content-end">
+                    <button class="bi-eye-fill position-absolute btn btn-link text-dark shadow-none password-icon" tabindex="-1" type="button"></button>
+                </div>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary w-100">Register</button>
     </form>
 </div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}

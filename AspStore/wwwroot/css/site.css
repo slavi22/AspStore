@@ -36,6 +36,7 @@ header,.container{
 #login-form, #register-form{
   padding: 2em;
   border: 1px solid #b3d4fc;
+  background-color: white;
   width: 35%;
 }
 
@@ -53,11 +54,6 @@ header,.container{
 
 #user-profile-icon{
   font-size: 2em;
-}
-
-.bi-circle:hover{
-  font-size: 5em;
-  background-color: red;
 }
 
 .user-dropdown .dropdown-menu{
@@ -78,6 +74,68 @@ header,.container{
   cursor: pointer;
 }
 
-#togglePassword{
-  z-index: 3;
+.password-icon{
+  z-index: 3 !important;
+}
+
+/*https://css-tricks.com/books/fundamental-css-tactics/infinite-scrolling-background-image/*/
+.login-sliding-image-container-first {
+  position: absolute;
+  left: 6%;
+  top: 30%;
+  width: 89%;
+  height: 36px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.login-sliding-image-container-second{
+  position: absolute;
+  left: 6%;
+  top: 40%;
+  width: 89%;
+  height: 36px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.login-sliding-image-container-third{
+  position: absolute;
+  left: 6%;
+  top: 50%;
+  width: 89%;
+  height: 36px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.login-sliding-image-container-first, .login-sliding-image-container-second, .login-sliding-image-container-third{
+  opacity: 10%;
+}
+
+.login-sliding-image-container-third .sliding-image-normal{
+  animation: slide 16s linear infinite;
+}
+
+.sliding-image-normal {
+  background: url("../images/login/background.png") repeat-x;
+  height: 36px;
+  width: 3600px;
+  animation: slide 13s linear infinite;
+}
+
+.sliding-image-reverse {
+  background: url("../images/login/background.png") repeat-x;
+  height: 36px;
+  width: 3600px;
+  animation: slide 20s linear infinite reverse;
+}
+
+@keyframes slide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-1200px, 0, 0);
+  }
 }
