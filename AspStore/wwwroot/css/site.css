@@ -49,7 +49,7 @@ header,.container{
 }
 
 #search-bar{
-  width: 90%;
+  width: 100%;
 }
 
 #user-profile-icon{
@@ -64,9 +64,16 @@ header,.container{
 
 .user-profile-container{
   transition: background-color 0.25s;
-  width: 3em;
-  height: 3em;
+  width: 2.8em;
+  height: 2.8em;
+  margin-top: -6px;
+  margin-right: 1em;
   border-radius: 50%;
+}
+
+#login-link{
+  width: 2.8em;
+  margin-right: 1em;
 }
 
 .user-profile-container:hover{
@@ -83,7 +90,7 @@ header,.container{
   position: absolute;
   left: 6%;
   top: 30%;
-  width: 89%;
+  width: 88%;
   height: 36px;
   overflow: hidden;
   z-index: -1;

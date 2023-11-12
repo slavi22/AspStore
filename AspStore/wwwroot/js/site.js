@@ -4,6 +4,8 @@
 // Write your JavaScript code.
 document.addEventListener("DOMContentLoaded", function () {
     $(".modal").modal("show");
+    console.log($("#search-bar").height())
+    console.log($("#search-bar").width())
     togglePasswordIcons();
 })
 
