@@ -29,29 +29,29 @@ header,.container{
   padding: 0 5em 0 5em;
 }
 
-#loginContainer, #registerContainer{
+#login-container, #register-container{
   height: 45vh;
 }
 
-#loginForm, #registerForm{
+#login-form, #register-form{
   padding: 2em;
   border: 1px solid #b3d4fc;
   width: 35%;
 }
 
-#indexLink{
+#index-link{
   color: #2A568B;
 }
 
-.navfont{
+.nav-font{
   font-size: 1.25rem;
 }
 
-#searchBar{
+#search-bar{
   width: 90%;
 }
 
-#userProfileIcon{
+#user-profile-icon{
   font-size: 2em;
 }
 
@@ -66,14 +66,14 @@ header,.container{
   top: 100% !important;
 }
 
-.userProfileContainer{
+.user-profile-container{
   transition: background-color 0.25s;
   width: 3em;
   height: 3em;
   border-radius: 50%;
 }
 
-.userProfileContainer:hover{
+.user-profile-container:hover{
   background-color: rgba(0, 0, 0, .15);
   cursor: pointer;
 }
