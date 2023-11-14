@@ -31,86 +31,107 @@
             </div>
         </div>
     }
-    <nav class="navbar navbar-expand-sm navbar-light bg-white">
-        <div class="container-fluid ms-1">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" id="index-link">AspStore</a>
-        </div>
-        <div class="nav-font">
-            <ul class="navbar-nav ms-auto me-5">
-                <li class="nav-item align-self-center">
-                    <i class="bi bi-telephone-fill"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="tel:0888888888" class="nav-link text-dark">08&nbsp;88888888</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-2">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white mb-3">
         <div class="container-fluid">
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-self-start">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
-                    <li class="nav-item" id="search-bar">
-                        <i class="bi bi-search position-absolute align-self-center"></i>
-                        <input type="text" class="form-control" placeholder="Search any product...">
-                    </li>
-                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                    {
-                        //https://stackoverflow.com/a/50845757 - center the dropdown
-                        <li class="nav-item">
-                            <div class="dropdown user-dropdown">
-                                <div class="user-profile-container d-flex justify-content-center" data-bs-toggle="dropdown">
-                                    <i class="bi bi-person-circle" id="user-profile-icon"></i>
-                                </div>
-                                <ul class="dropdown-menu text-center">
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPage">Admin</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
-                                            <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </div>
+            <div class="row align-items-center first-container w-100 g-0">
+                <div class="col-auto me-auto">
+                    <a class="navbar-brand ms-1" asp-area="" asp-controller="Home" asp-action="Index" id="index-link">AspStore</a>
+                </div>
+                <div class="col-auto nav-container-inner-icon-phone">
+                    <ul class="navbar-nav nav-font">
+                        <li class="nav-item d-flex flex-row align-items-center">
+                            <i class="bi bi-telephone-fill"></i>
+                            <a href="tel:0888888888" class="nav-link text-dark ms-1">08&nbsp;88888888</a>
                         </li>
-                    }
-                    else if (signInManager.IsSignedIn(User) && User.IsInRole("User"))
-                    {
-                        <div class="dropdown user-dropdown">
-                            <div class="d-flex user-profile-container justify-content-center me-5" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle" id="user-profile-icon"></i>
-                            </div>
-                            <ul class="dropdown-menu text-center">
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
-                                </li>
-                                <li class="nav-item">
-                                    <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
-                                        <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
-                                    </form>
-                                </li>
-                            </ul>
+                    </ul>
+                </div>
+                <div class="row g-0 collapse navbar-collapse">
+                    <ul class="navbar-nav">
+                        <div class="col-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
                         </div>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" id="login-link">Login</a>
-                        </li>
-                    }
-                </ul>
+                        <div class="col-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </div>
+                        <div class="col-auto w-100 flex-shrink-1 d-none d-lg-block d-xl-block d-xxl-block">
+                            <li class="nav-item d-flex align-items-center" id="search-bar">
+                                <i class="bi bi-search position-absolute ms-1"></i>
+                                <input type="text" class="form-control flex-grow-1" placeholder="Search any product...">
+                            </li>
+                        </div>
+                        <div class="col-auto order-sm-first order-lg-last">
+                            @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                            {
+                                //https://stackoverflow.com/a/50845757 - center the dropdown
+                                <li class="nav-item">
+                                    <div class="dropdown user-dropdown">
+                                        <div class="user-profile-container d-flex justify-content-center" data-bs-toggle="dropdown">
+                                            <i class="bi bi-person-circle" id="user-profile-icon"></i>
+                                        </div>
+                                        <ul class="dropdown-menu text-center">
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AdminPage">Admin</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
+                                                    <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            else if (signInManager.IsSignedIn(User) && User.IsInRole("User"))
+                            {
+                                <li class="nav-item">
+                                    <div class="dropdown user-dropdown">
+                                        <div class="user-profile-container d-flex justify-content-center" data-bs-toggle="dropdown">
+                                            <i class="bi bi-person-circle" id="user-profile-icon"></i>
+                                        </div>
+                                        <ul class="dropdown-menu text-center">
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">User</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <form method="post" asp-action="Logout" asp-controller="Account" class="d-flex justify-content-center">
+                                                    <button type="submit" class="nav-link text-dark btn btn-link">Sign out</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" id="login-link">Login</a>
+                                </li>
+                            }
+                        </div>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-auto align-self-start">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".collapse" aria-controls="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="col-auto w-100 flex-shrink-1 d-block d-md-block d-lg-none">
+                <li class="nav-item d-flex align-items-center" id="search-bar">
+                    <i class="bi bi-search position-absolute ms-1"></i>
+                    <input type="text" class="form-control flex-grow-1" placeholder="Search any product...">
+                </li>
             </div>
         </div>
+
     </nav>
 </header>
 <div class="container">
