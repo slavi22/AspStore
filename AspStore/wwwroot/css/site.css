@@ -18,12 +18,15 @@
     margin-right: 100%;
   }
 
+  .order-sm-first{
+    order: -1;
+  }
+
   nav{
     min-width: 300px;
   }
 
   .user-dropdown .dropdown-menu{
-    
     transform: translateX(-35%) !important;
     top: 100% !important;
   }
