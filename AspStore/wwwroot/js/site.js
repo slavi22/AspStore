@@ -5,13 +5,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     $(".modal").modal("show");
     togglePasswordIcons();
-    console.log($("#search-bar").height());
-    console.log($("#search-bar").width());
-    /*$(".navbar-toggler").on("click", function (){
-        setTimeout(function (){
-            $(".bi-search").toggle(10);
-        }, 1000);
-    })*/
+    /*console.log($("#search-bar").height());
+    console.log($("#search-bar").width());*/
 })
 
 function togglePasswordIcons(){
