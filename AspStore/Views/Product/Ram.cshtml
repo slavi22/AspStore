@@ -1,0 +1,24 @@
+@inject SignInManager<IdentityUser> signInManager;
+@{
+    ViewData["Title"] = "Ram";
+}
+
+<h1>Ram</h1>
+<div class="row">
+    <div class="col-lg-3 col-sm-auto">
+        search-bar
+    </div>
+    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+    {
+        <a asp-action="Add" asp-controller="Product" asp-route-product="Ram" class="product-box-add nav-link text-dark col-auto d-flex align-items-center justify-content-center bg-white border border-3">
+            <i class="bi bi-plus-circle"></i>
+            <span class="product-box-tooltip">Add a new RAM product</span>
+        </a>
+    }
+    @foreach (var product in Model)
+    {
+        <a asp-action="Cpu" asp-controller="Product" asp-route-id="@product.Id">
+            <img src="@product.ProductImage.ImagePath">
+        </a>
+    }
+</div>

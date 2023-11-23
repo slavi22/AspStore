@@ -1,4 +1,4 @@
-namespace AspStore.Models
+namespace AspStore.Models.Errors
 {
     public class ErrorViewModel
     {

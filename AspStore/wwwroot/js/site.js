@@ -9,9 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log($("#search-bar").width());*/
 })
 
-function togglePasswordIcons(){
+function togglePasswordIcons() {
     $(".password-icon").click(function () {
-        let showPasswordToggled = $(".password-icon").hasClass("bi-eye-fill")?"text":"password";
+        let showPasswordToggled = $(".password-icon").hasClass("bi-eye-fill") ? "text" : "password";
         $(".password").attr("type", showPasswordToggled);
         $(".password-icon").toggleClass("bi-eye-fill bi-eye-slash-fill");
     });

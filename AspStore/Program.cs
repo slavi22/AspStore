@@ -1,6 +1,8 @@
 using AspStore.Data;
 using AspStore.Policies.Handlers;
 using AspStore.Policies.Requirements;
+using AspStore.Services;
+using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +18,6 @@ namespace AspStore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            string loginPath = String.Empty;
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(Environment.GetEnvironmentVariable("AspStore"));
@@ -31,25 +32,13 @@ namespace AspStore
                 options.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<AppDbContext>();
 
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IAuthorizationHandler, FirstTimeSetupHandler>();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("FirstTimeSetupComplete",
                     policy => policy.Requirements.Add(new FirstTimeSetupRequirement(1)));
-            });/*.ConfigureApplicationCookie(options =>
-            {
-                //access db context here
-                /*var db = builder.Services.BuildServiceProvider().GetService<AppDbContext>();
-                if (db.Users.Count() == 0)
-                {
-                    options.LoginPath = "/Account/Register";
-                }
-                else
-                {
-                    options.LoginPath = "/Account/Login";
-                }#1#
-                //options.LoginPath = loginPath;
-            });*/
+            });
 
             var app = builder.Build();
 
@@ -75,6 +64,11 @@ namespace AspStore
             app.MapControllerRoute(
                 name: "account",
                 pattern: "{controller=Account}/{action}"
+            );
+
+            app.MapControllerRoute(
+                name: "product",
+                pattern: "{controller=Product}/{action}"
             );
 
             app.Run();

@@ -14,6 +14,10 @@
 }
 
 @media only screen and (max-width: 1000px) {
+  body{
+    line-height: normal;
+  }
+  
   .nav-container-inner-icon-phone{
     margin-right: 100%;
   }
@@ -87,7 +91,12 @@ header,.container{
   height: 45vh;
 }
 
-#login-form, #register-form{
+.add-product-container{
+  margin-right: -5em;
+  margin-left: -5em;
+}
+
+#login-form, #register-form, #add-product-form{
   padding: 2em;
   border: 1px solid #b3d4fc;
   background-color: white;
@@ -206,4 +215,55 @@ header,.container{
   padding: 0.5em;
   border: 1px solid black;
   background-color: #b3d4fc;
+}
+
+.product-box, .product-box-add{
+  width: 13em;
+  height: 13em;
+  position: relative;
+}
+
+.bi-plus-circle, .bi-cpu, .bi-gpu-card, .bi-memory, .bi-motherboard{
+  font-size: 5em;
+}
+
+.product-box .product-box-tooltip{
+  opacity: 0;
+  position: absolute;
+  top: 60%;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.product-box-add .product-box-tooltip{
+  opacity: 0;
+  position: absolute;
+  top: 76%;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.product-box .product-box-tooltip:after, .product-box-add .product-box-tooltip:after{
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+
+.product-box:hover .product-box-tooltip, .product-box-add:hover .product-box-tooltip{
+  opacity: 1;
+}
+
+#editor{
+  height: 15em;
 }

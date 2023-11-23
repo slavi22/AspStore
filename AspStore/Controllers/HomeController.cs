@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using AspStore.Data;
+using AspStore.Models.Errors;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AspStore.Controllers
@@ -32,17 +33,6 @@ namespace AspStore.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-        
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminPage()
-        {
-            return View();
-        }
-        [Authorize(Roles = "User")]
-        public IActionResult UserPage()
-        {
-            return View();
         }
     }
 }

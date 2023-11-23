@@ -10,17 +10,4 @@ public class FirstTimeSetupRequirement : IAuthorizationRequirement
     {
         UserCount = userCount;
     }
-
-    public bool RequirementValid()
-    {
-        if (UserCount < 1)
-        {
-            return false;
-        }
-
-        else
-        {
-            return true;
-        }
-    }
 }

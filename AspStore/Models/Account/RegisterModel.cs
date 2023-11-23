@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AspStore.Models;
+namespace AspStore.Models.Account;
 
 public class RegisterModel
 {
