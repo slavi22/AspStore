@@ -1,3 +1,4 @@
+@model List<AspStore.Models.Product.ProductModel>;
 @inject SignInManager<IdentityUser> signInManager;
 @{
     ViewData["Title"] = "Motherboard";
@@ -8,17 +9,38 @@
     <div class="col-lg-3 col-sm-auto">
         search-bar
     </div>
-    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-    {
-        <a asp-action="Add" asp-controller="Product" asp-route-product="Motherboard" class="product-box-add nav-link text-dark col-auto d-flex align-items-center justify-content-center bg-white border border-3">
-            <i class="bi bi-plus-circle"></i>
-            <span class="product-box-tooltip text-center" style="font-size: 13px">Add a new Motherboard product</span>
-        </a>
-    }
-    @foreach (var product in Model)
-    {
-        <a asp-action="Cpu" asp-controller="Product" asp-route-id="@product.Id">
-            <img src="@product.ProductImage.ImagePath">
-        </a>
-    }
+    <div class="col-lg-9 d-flex">
+        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <a asp-action="Add" asp-controller="Product" asp-route-product="Motherboard" class="product-box-add nav-link text-dark col-auto d-flex align-items-center justify-content-center bg-white border border-3">
+                <i class="bi bi-plus-circle"></i>
+                <span class="category-box-tooltip text-center" style="font-size: 13px">Add a new Motherboard product</span>
+            </a>
+            @foreach (var product in Model)
+            {
+                <div class="product-box admin bg-white border border-3 gx-1 d-flex align-items-center">
+                    <a class="text-decoration-none" asp-action="Motherboard" asp-controller="Product" asp-route-id="@product.Id">
+                        <img class="product-image" src="@product.ProductImage.ImagePath">
+                        <div class="text-dark text-center">@product.Name</div>
+                        <div class="d-flex flex-column align-self-start mt-5 product-actions">
+                            <a class="bi bi-pencil-square text-white btn btn-primary mb-2" href="#"></a>
+                            <a class="bi bi-trash text-white btn btn-danger" href="#"></a>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            @foreach (var product in Model)
+            {
+                <div class="product-box bg-white border border-3 gx-1 d-flex align-items-center">
+                    <a class="text-decoration-none" asp-action="Motherboard" asp-controller="Product" asp-route-id="@product.Id">
+                        <img class="product-image" src="@product.ProductImage.ImagePath">
+                        <div class="text-dark text-center">@product.Name</div>
+                    </a>
+                </div>
+            }
+        }
+    </div>
 </div>

@@ -29,6 +29,7 @@ public class ProductController : Controller
     {
         return View();
     }
+
     [Authorize(Roles = "Admin")]
     [Route("/Product/Add")]
     public IActionResult Add()
@@ -90,34 +91,42 @@ public class ProductController : Controller
         ViewData["ProductCategories"] = new SelectList(productsCategory, "Id", "Name");
         if (ModelState.IsValid)
         {
-            if (await _productService.UploadImage(model.Image) == false)
+            if (_dbContext.Products.Any(id => id.Id == model.Id) == true)
             {
-                ModelState.AddModelError("Image",
-                    $"Image with name the \"{model.Image.FileName}\" already exists in the database!");
+                ModelState.AddModelError("Id", $"Product with id code - \"{model.Id}\" already exists in the database!");
                 return View();
             }
             else
             {
-                await _productService.Add(model);
-                if (model.ProductCategoryId == 1)
+                if (await _productService.UploadImage(model.Image) == false)
                 {
-                    return RedirectToAction("Cpu");
-                }
-                else if (model.ProductCategoryId == 2)
-                {
-                    return RedirectToAction("Gpu");
-                }
-                else if (model.ProductCategoryId == 3)
-                {
-                    return RedirectToAction("Ram");
-                }
-                else if (model.ProductCategoryId == 4)
-                {
-                    return RedirectToAction("Motherboard");
+                    ModelState.AddModelError("Image",
+                        $"Image with the name - \"{model.Image.FileName}\" already exists in the database!");
+                    return View();
                 }
                 else
                 {
-                    return BadRequest();
+                    await _productService.Add(model);
+                    if (model.ProductCategoryId == 1)
+                    {
+                        return RedirectToAction("Cpu");
+                    }
+                    else if (model.ProductCategoryId == 2)
+                    {
+                        return RedirectToAction("Gpu");
+                    }
+                    else if (model.ProductCategoryId == 3)
+                    {
+                        return RedirectToAction("Ram");
+                    }
+                    else if (model.ProductCategoryId == 4)
+                    {
+                        return RedirectToAction("Motherboard");
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
                 }
             }
         }
@@ -134,8 +143,8 @@ public class ProductController : Controller
     [Route("/Product/Cpu/{id}")]
     public IActionResult Cpu(int id)
     {
-        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id);
-        if (product!=null)
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 1);
+        if (product != null)
         {
             product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
             return View("Product", product);
@@ -151,16 +160,61 @@ public class ProductController : Controller
         var products = _productService.GetProductsByCategory(2);
         return View(products);
     }
+    
+    [Route("/Product/Gpu/{id}")]
+    public IActionResult Gpu(int id)
+    {
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 2);
+        if (product != null)
+        {
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            return View("Product", product);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
 
     public IActionResult Ram()
     {
         var products = _productService.GetProductsByCategory(3);
         return View(products);
     }
+    
+    [Route("/Product/Ram/{id}")]
+    public IActionResult Ram(int id)
+    {
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 3);
+        if (product != null)
+        {
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            return View("Product", product);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
 
     public IActionResult Motherboard()
     {
         var products = _productService.GetProductsByCategory(4);
         return View(products);
+    }
+    
+    [Route("/Product/Motherboard/{id}")]
+    public IActionResult Motherboard(int id)
+    {
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 4);
+        if (product != null)
+        {
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            return View("Product", product);
+        }
+        else
+        {
+            return NotFound();
+        }
     }
 }

@@ -12,12 +12,14 @@ public class ProductModel
 {
     [Required]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Range(1, int.MaxValue)]
     public int? Id { get; set; }
     [Required]
     public string Name { get; set; }
     [Required]
     public string Description { get; set; }
     [Required]
+    [DataType(DataType.Currency)]
     [Precision(6, 2)]
     [Range(1D, 100000D, ErrorMessage = "Price should be in the range 1 - 100.000")]
     public decimal? Price { get; set; }
