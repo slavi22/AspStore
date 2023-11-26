@@ -77,7 +77,7 @@ public class ProductService : IProductService
         var products = _dbContext.Products.Where(p=>p.ProductCategoryId==categoryId).ToList();
         foreach (var product in products)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
         }
         return products;
     }

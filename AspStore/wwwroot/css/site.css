@@ -295,3 +295,7 @@ header,.container{
   transition: opacity 0.25s ease-in-out;
   opacity: 1;
 }
+
+.product-row{
+  width: calc(100% + 3em);
+}

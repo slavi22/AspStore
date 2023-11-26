@@ -1,5 +1,6 @@
 using AspStore.Data;
 using AspStore.Models.Product;
+using AspStore.Pagination;
 using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -106,6 +107,8 @@ public class ProductController : Controller
                 }
                 else
                 {
+                    TempData["ShowProductSuccessfullyAddedToDb"] = true;
+                    TempData["ProductId"] = model.Id;
                     await _productService.Add(model);
                     if (model.ProductCategoryId == 1)
                     {
@@ -134,10 +137,18 @@ public class ProductController : Controller
         return View();
     }
 
-    public IActionResult Cpu()
+    public IActionResult Cpu(int? page)
     {
         var products = _productService.GetProductsByCategory(1);
-        return View(products);
+        var paginatedList = PaginatedList<ProductModel>.Create(products, page ?? 1, 8);
+        if (page > paginatedList.TotalPages)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return View(paginatedList);
+        }
     }
 
     [Route("/Product/Cpu/{id}")]
@@ -146,7 +157,7 @@ public class ProductController : Controller
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 1);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -155,10 +166,18 @@ public class ProductController : Controller
         }
     }
 
-    public IActionResult Gpu()
+    public IActionResult Gpu(int? page)
     {
         var products = _productService.GetProductsByCategory(2);
-        return View(products);
+        var paginatedList = PaginatedList<ProductModel>.Create(products, page ?? 1, 8);
+        if (page > paginatedList.TotalPages)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return View(paginatedList);
+        }
     }
     
     [Route("/Product/Gpu/{id}")]
@@ -167,7 +186,7 @@ public class ProductController : Controller
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 2);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -176,10 +195,18 @@ public class ProductController : Controller
         }
     }
 
-    public IActionResult Ram()
+    public IActionResult Ram(int? page)
     {
         var products = _productService.GetProductsByCategory(3);
-        return View(products);
+        var paginatedList = PaginatedList<ProductModel>.Create(products, page ?? 1, 8);
+        if (page > paginatedList.TotalPages)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return View(paginatedList);
+        }
     }
     
     [Route("/Product/Ram/{id}")]
@@ -188,7 +215,7 @@ public class ProductController : Controller
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 3);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -197,10 +224,18 @@ public class ProductController : Controller
         }
     }
 
-    public IActionResult Motherboard()
+    public IActionResult Motherboard(int? page)
     {
         var products = _productService.GetProductsByCategory(4);
-        return View(products);
+        var paginatedList = PaginatedList<ProductModel>.Create(products, page ?? 1, 8);
+        if (page > paginatedList.TotalPages)
+        {
+            return NotFound();
+        }
+        else
+        {
+            return View(paginatedList);
+        }
     }
     
     [Route("/Product/Motherboard/{id}")]
@@ -209,7 +244,7 @@ public class ProductController : Controller
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 4);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.Id).FirstOrDefault();
+            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
