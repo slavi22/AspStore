@@ -299,3 +299,21 @@ header,.container{
 .product-row{
   width: calc(100% + 3em);
 }
+
+.image-upload-preview{
+  height: 5em;
+}
+
+#uploaded-file-image{
+  object-fit: contain;
+}
+
+.image-actions{
+  display: none;
+  opacity: 0;
+}
+
+.image-upload-preview:hover .image-actions{
+  transition: opacity 0.25s ease-in-out;
+  opacity: 1;
+}
