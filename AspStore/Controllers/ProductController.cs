@@ -28,7 +28,7 @@ public class ProductController : Controller
     {
         return View();
     }
-    
+
     [Route("/Product/Add")]
     [Authorize(Roles = "Admin")]
     public IActionResult Add()
@@ -92,7 +92,8 @@ public class ProductController : Controller
         {
             if (_dbContext.Products.Any(id => id.Id == model.Id) == true)
             {
-                ModelState.AddModelError("Id", $"Product with id code - \"{model.Id}\" already exists in the database!");
+                ModelState.AddModelError("Id",
+                    $"Product with id code - \"{model.Id}\" already exists in the database!");
                 return View();
             }
             else
@@ -155,7 +156,8 @@ public class ProductController : Controller
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 1);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
+            product.ProductImage =
+                _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -177,14 +179,15 @@ public class ProductController : Controller
             return View(paginatedList);
         }
     }
-    
+
     [Route("/Product/Gpu/{id}")]
     public IActionResult Gpu(int id)
     {
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 2);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
+            product.ProductImage =
+                _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -206,14 +209,15 @@ public class ProductController : Controller
             return View(paginatedList);
         }
     }
-    
+
     [Route("/Product/Ram/{id}")]
     public IActionResult Ram(int id)
     {
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 3);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
+            product.ProductImage =
+                _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -235,14 +239,15 @@ public class ProductController : Controller
             return View(paginatedList);
         }
     }
-    
+
     [Route("/Product/Motherboard/{id}")]
     public IActionResult Motherboard(int id)
     {
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id && p.ProductCategoryId == 4);
         if (product != null)
         {
-            product.ProductImage = _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
+            product.ProductImage =
+                _dbContext.ProductsImages.Where(i => i.Id == product.ProductImageId).FirstOrDefault();
             return View("Product", product);
         }
         else
@@ -296,9 +301,11 @@ public class ProductController : Controller
         //keep the existing image if the user hasn't uploaded a enw one
         if (image == null)
         {
-            model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == _dbContext.Products.FirstOrDefault(p=>p.Id == id).ProductImageId);
+            model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i =>
+                i.Id == _dbContext.Products.FirstOrDefault(p => p.Id == id).ProductImageId);
             ModelState.Remove("Image");
         }
+
         if (ModelState.IsValid)
         {
             if (await _productService.Edit(model, image, id) == false)
@@ -306,11 +313,31 @@ public class ProductController : Controller
                 model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Name == image.FileName);
                 Response.StatusCode = 400;
                 TempData["oldImageName"] = image.FileName;
-                TempData["model"] = JsonConvert.SerializeObject(model, new JsonSerializerSettings{ ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+                TempData["model"] = JsonConvert.SerializeObject(model,
+                    new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 return Json(Url.Action("Edit", "Product", new { id = id }));
             }
-            return Json(Url.Action("Index"));
+
+            TempData["ShowProductSuccessfullyEdited"] = true;
+            TempData["ProductId"] = model.Id;
+            if (model.ProductCategoryId == 1)
+            {
+                return Json(Url.Action("Cpu"));
+            }
+            else if (model.ProductCategoryId == 2)
+            {
+                return Json(Url.Action("Gpu"));
+            }
+            else if (model.ProductCategoryId == 3)
+            {
+                return Json(Url.Action("Ram"));
+            }
+            else if (model.ProductCategoryId == 4)
+            {
+                return Json(Url.Action("Motherboard"));
+            }
         }
+
         return View(model);
     }
 }

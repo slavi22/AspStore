@@ -21,6 +21,22 @@
         </div>
     </div>
 }
+else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["ShowProductSuccessfullyEdited"] == true)
+{
+    <div class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Product edited</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Product with id "@TempData["ProductId"]" has been successfully edited!
+                </div>
+            </div>
+        </div>
+    </div>
+}
 <div class="product-row row">
     <div class="col-lg-3 col-sm-auto">
         search-bar
