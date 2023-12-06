@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Web;
 using AspStore.Data;
 using AspStore.Models.Product;
 using AspStore.Pagination;
@@ -5,6 +7,8 @@ using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AspStore.Controllers;
 
@@ -18,21 +22,15 @@ public class ProductController : Controller
         _productService = productService;
         _dbContext = dbContext;
     }
-    /*public IActionResult Index()
-    {
-        //var model = _productService.GetAllProducts().Where(e => e.ProductCategoryId == 2);
-        var model = _productService.GetAllProducts();
-        return View(model);
-    }*/
 
     [Route("/Products/Index")]
     public IActionResult Index()
     {
         return View();
     }
-
-    [Authorize(Roles = "Admin")]
+    
     [Route("/Product/Add")]
+    [Authorize(Roles = "Admin")]
     public IActionResult Add()
     {
         var productsCategory = _dbContext.ProductsCategory.ToList();
@@ -99,7 +97,7 @@ public class ProductController : Controller
             }
             else
             {
-                if (await _productService.UploadImage(model.Image) == false)
+                if (await _productService.UploadImage(model.Image, null) == false)
                 {
                     ModelState.AddModelError("Image",
                         $"Image with the name - \"{model.Image.FileName}\" already exists in the database!");
@@ -251,5 +249,68 @@ public class ProductController : Controller
         {
             return NotFound();
         }
+    }
+
+    [Route("/Product/Edit/{id}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult Edit(int id)
+    {
+        var productsCategory = _dbContext.ProductsCategory.ToList();
+        ViewData["ProductCategories"] = new SelectList(productsCategory, "Id", "Name");
+        if (TempData["model"] != null)
+        {
+            var oldImageName = TempData["oldImageName"];
+            ModelState.AddModelError("Image",
+                $"Image with the name - \"{oldImageName}\" already exists in the database!");
+            var model = JsonConvert.DeserializeObject<ProductModel>((string)TempData["model"]);
+            TempData.Remove("model");
+            return View(model);
+        }
+
+        var product = _dbContext.Products.FirstOrDefault(p => p.Id == id);
+        if (product != null)
+        {
+            product.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == product.ProductImageId);
+            return View(product);
+        }
+        else
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPatch]
+    [Route("/Product/Edit/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Edit(string formData, IFormFile image, int id)
+    {
+        var data = HttpUtility.ParseQueryString(formData);
+        var model = new ProductModel()
+        {
+            Id = Convert.ToInt32(data["Id"]),
+            Name = data["Name"],
+            Description = data["Description"],
+            Price = Convert.ToDecimal(data["Price"]),
+            ProductCategoryId = Convert.ToInt32(data["ProductCategoryId"])
+        };
+        //keep the existing image if the user hasn't uploaded a enw one
+        if (image == null)
+        {
+            model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == _dbContext.Products.FirstOrDefault(p=>p.Id == id).ProductImageId);
+            ModelState.Remove("Image");
+        }
+        if (ModelState.IsValid)
+        {
+            if (await _productService.Edit(model, image, id) == false)
+            {
+                model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Name == image.FileName);
+                Response.StatusCode = 400;
+                TempData["oldImageName"] = image.FileName;
+                TempData["model"] = JsonConvert.SerializeObject(model, new JsonSerializerSettings{ ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+                return Json(Url.Action("Edit", "Product", new { id = id }));
+            }
+            return Json(Url.Action("Index"));
+        }
+        return View(model);
     }
 }

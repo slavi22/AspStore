@@ -46,7 +46,7 @@
             <input asp-for="Image" class="form-control" id="imageUpload" accept=".png, .jpg">
         </div>
         <div class="mb-3 image-upload-preview border border-1 d-flex">
-            <img id="uploaded-file-image">
+            <img class="ms-2 me-1" id="uploaded-file-image">
             <div class="d-flex flex-column align-self-start mt-3 image-actions">
                 <button type="button" class="bi bi bi-x-circle text-white btn btn-danger"></button>
             </div>
@@ -103,27 +103,27 @@
         if (window.matchMedia("(max-width: 1000px)").matches){
             image.style.width = "100px";
             image.style.height = "120px";
-            container.style.width = "150px";
+            container.style.width = "160px";
             container.style.height = "120px";
         }
         else{
             image.style.width = "190px";
             image.style.height = "145px";
-            container.style.width = "calc(190px + 3em)";
+            container.style.width = "calc(190px + 4em)";
             container.style.height = "145px";
         }
         window.onresize = function (){
             if (window.matchMedia("(max-width: 1000px)").matches){
                 image.style.width = "100px";
                 image.style.height = "120px";
-                container.style.width = "150px";
+                container.style.width = "160px";
                 container.style.height = "120px";
             }
             else{
                 image.style.width = "190px";
                 image.style.height = "145px";
-                container.style.width = "calc(190px + 3em)";
-                container.style.height = "145px";
+                container.style.width = "100%";
+                container.style.height = "5em";
             }
         }
     });

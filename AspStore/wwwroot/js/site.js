@@ -5,8 +5,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     $(".modal").modal("show");
     togglePasswordIcons();
-    /*console.log($("#search-bar").height());
-    console.log($("#search-bar").width());*/
+    bindSearchBarsValue();
 })
 
 function togglePasswordIcons() {
@@ -14,5 +13,11 @@ function togglePasswordIcons() {
         let showPasswordToggled = $(".password-icon").hasClass("bi-eye-fill") ? "text" : "password";
         $(".password").attr("type", showPasswordToggled);
         $(".password-icon").toggleClass("bi-eye-fill bi-eye-slash-fill");
+    });
+}
+
+function bindSearchBarsValue(){
+    $(".search-bar input").on("change", function (){
+        $(".search-bar input").val($(this).val());
     });
 }

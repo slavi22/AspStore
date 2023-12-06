@@ -101,7 +101,7 @@ header,.container{
   margin-left: -5em;
 }
 
-#login-form, #register-form, #add-product-form{
+#login-form, #register-form, #add-product-form, #edit-product-form{
   padding: 2em;
   border: 1px solid #b3d4fc;
   background-color: white;
@@ -116,7 +116,7 @@ header,.container{
   font-size: 1.25rem; 
 }
 
-#search-bar{
+.search-bar{
   width: 100%;
 }
 
@@ -209,7 +209,7 @@ header,.container{
   }
 }
 
-#search-bar input{
+.search-bar input{
   text-indent: 12px;
 }
 
