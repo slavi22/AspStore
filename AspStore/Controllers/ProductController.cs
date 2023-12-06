@@ -340,4 +340,33 @@ public class ProductController : Controller
 
         return View(model);
     }
+
+    [HttpDelete]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var productCategoryId = _dbContext.Products.FirstOrDefault(p => p.Id == id).ProductCategoryId;
+        if (await _productService.Delete(id) == true)
+        {
+            TempData["ShowProductSuccessfullyDeleted"] = true;
+            TempData["ProductId"] = id;
+            if (productCategoryId == 1)
+            {
+                return Json(Url.Action("Cpu"));
+            }
+            else if (productCategoryId == 2)
+            {
+                return Json(Url.Action("Gpu"));
+            }
+            else if (productCategoryId == 3)
+            {
+                return Json(Url.Action("Ram"));
+            }
+            else if (productCategoryId == 4)
+            {
+                return Json(Url.Action("Motherboard"));
+            }
+        }
+        return BadRequest();
+    }
 }

@@ -3,7 +3,7 @@
 
 // Write your JavaScript code.
 document.addEventListener("DOMContentLoaded", function () {
-    $(".modal").modal("show");
+    $(".modal").not("#modal-delete").modal("show");
     togglePasswordIcons();
     bindSearchBarsValue();
 })

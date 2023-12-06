@@ -37,6 +37,22 @@ else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["Show
         </div>
     </div>
 }
+<div class="modal fade" tabindex="-1" id="modal-delete" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete confirmation</h5>
+            </div>
+            <div class="modal-body">
+                <span class="text-danger">Are you sure you want to delete product with id "<span id="product-del-id"></span>"?</span>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-danger" id="delete-product-button-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="product-row row">
     <div class="col-lg-3 col-sm-auto">
         search-bar
@@ -56,7 +72,7 @@ else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["Show
                         <div class="text-dark text-center">@product.Name</div>
                         <div class="d-flex flex-column align-self-start mt-5 product-actions">
                             <a class="bi bi-pencil-square text-white btn btn-primary mb-2" asp-action="Edit" asp-route-id="@product.Id"></a>
-                            <a class="bi bi-trash text-white btn btn-danger" href="#"></a>
+                            <button type="button" class="bi bi-trash text-white btn btn-danger delete-product-button" value="@product.Id" data-bs-toggle="modal" data-bs-target="#modal-delete"></button>
                         </div>
                     </a>
                 </div>
@@ -213,7 +229,24 @@ else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["Show
 {
     <script>
         setTimeout(function(){
-            $('.modal').modal('hide')
+            $('.modal').not("#modal-delete").modal('hide')
         }, 1500);
+    </script>
+    <script>
+        $(".delete-product-button").on("click", function (){
+           $("#modal-delete").show();
+           $("#product-del-id").text($(this).val())
+           let clickedDelButtonVal = $(this).val();
+           $("#delete-product-button-confirm").on("click", function (){
+               $.ajax({
+                  type: "DELETE",
+                  url: "@Url.Action("Delete")",
+                  data: {id: clickedDelButtonVal},
+                  success: function (res){
+                      window.location.href = res;
+                  }
+             });
+           })
+        });
     </script>
 }

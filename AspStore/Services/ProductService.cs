@@ -67,16 +67,21 @@ public class ProductService : IProductService
         }
     }
 
-    public bool Remove(int id)
+    public async Task<bool> Delete(int id)
     {
-        var entity = _dbContext.Products.FirstOrDefault(e => e.Id == id);
-        if (entity == null)
+        var product = _dbContext.Products.FirstOrDefault(e => e.Id == id);
+        if (product == null)
         {
             return false;
         }
         else
         {
-            _dbContext.Remove(entity);
+            var productImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == product.ProductImageId);
+            _dbContext.Products.Remove(product);
+            await _dbContext.SaveChangesAsync();
+            _dbContext.ProductsImages.Remove(productImage);
+            await _dbContext.SaveChangesAsync();
+            DeleteImageFromServer(productImage.Name);
             return true;
         }
     }
