@@ -1,7 +1,10 @@
 using AspStore.Data;
 using AspStore.Models;
 using AspStore.Models.Account;
+using AspStore.Services;
+using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +15,15 @@ public class AccountController : Controller
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly AppDbContext _dbContext;
+    private readonly IUserPageService _userPageService;
 
     public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
-        AppDbContext dbContext)
+        AppDbContext dbContext, IUserPageService userPageService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _dbContext = dbContext;
+        _userPageService = userPageService;
     }
 
     public IActionResult Register()
@@ -140,4 +145,70 @@ public class AccountController : Controller
     {
         return View();
     }
+    
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Addresses")]
+    public IActionResult Addresses()
+    {
+        var userId = _userManager.GetUserId(User);
+        var addresses = _dbContext.UserAddress.Where(i => i.UserId == userId).ToList();
+        if (addresses.Any() == false)
+        {
+            return RedirectToAction("AddAddress");
+        }
+        return View(addresses);
+    }
+
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Address/New")]
+    public IActionResult AddAddress()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Address/New")]
+    public IActionResult AddAddress(AddressModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            _userPageService.AddAddress(model, User);
+            return RedirectToAction("Addresses");
+        }
+        return View();
+    }
+
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Address/Delete")]
+    [HttpDelete]
+    public IActionResult DeleteAddress(int id)
+    {
+        _userPageService.DeleteAddress(id);
+        return Json(Url.Action("Addresses"));
+    }
+
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Address/Edit")]
+    [HttpPost]
+    public IActionResult EditAddress([FromForm] int id)
+    {
+        var model = _dbContext.UserAddress.FirstOrDefault(a => a.Id == id);
+        return View(model);
+    }
+    
+
+    [Authorize(Roles = "User")]
+    [Route("/Account/User/Address/Edit/{shortName}")]
+    [HttpPost]
+    public IActionResult EditAddress(AddressModel model, string shortName)
+    {
+        if (ModelState.IsValid)
+        {
+            _userPageService.EditAddress(model);
+            return RedirectToAction("Addresses");
+        }
+        return View("EditAddress", model);
+    }
+    
 }

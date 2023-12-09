@@ -35,6 +35,7 @@ namespace AspStore
 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IAuthorizationHandler, FirstTimeSetupHandler>();
+            builder.Services.AddScoped<IUserPageService, UserPageService>();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("FirstTimeSetupComplete",

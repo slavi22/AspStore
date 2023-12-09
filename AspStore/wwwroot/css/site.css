@@ -101,7 +101,7 @@ header,.container{
   margin-left: -5em;
 }
 
-#login-form, #register-form, #add-product-form, #edit-product-form{
+#login-form, #register-form, #add-product-form, #edit-product-form, #add-address-form, #edit-address-form{
   padding: 2em;
   border: 1px solid #b3d4fc;
   background-color: white;
@@ -316,4 +316,14 @@ header,.container{
 .image-upload-preview:hover .image-actions{
   transition: opacity 0.25s ease-in-out;
   opacity: 1;
+}
+
+.user-address, .user-address-add{
+  border: 1px solid black;
+  width: 15em;
+  height: 100%;
+}
+
+.user-address-add .bi-plus-circle{
+  font-size: 3em;
 }

@@ -1,3 +1,4 @@
+using AspStore.Models.Account;
 using AspStore.Models.Product;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -10,6 +11,7 @@ public class AppDbContext : IdentityDbContext
     public DbSet<ProductModel> Products { get; set; }
     public DbSet<ProductCategoryModel> ProductsCategory { get; set; }
     public DbSet<ProductImageModel> ProductsImages { get; set; }
+    public DbSet<AddressModel> UserAddress { get; set; }
 
     public AppDbContext(DbContextOptions options) : base(options)
     {
