@@ -184,6 +184,12 @@ public class AccountController : Controller
     [HttpDelete]
     public IActionResult DeleteAddress(int id)
     {
+        var address = _dbContext.UserAddress.FirstOrDefault(a => a.Id == id);
+        var userId = _userManager.GetUserId(User);
+        if (address.UserId != userId)
+        {
+            return Unauthorized();
+        }
         _userPageService.DeleteAddress(id);
         return Json(Url.Action("Addresses"));
     }
@@ -203,6 +209,12 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult EditAddress(AddressModel model, string shortName)
     {
+        var address = _dbContext.UserAddress.FirstOrDefault(a => a.Id == model.Id);
+        var userId = _userManager.GetUserId(User);
+        if (address.UserId != userId)
+        {
+            return Unauthorized();
+        }
         if (ModelState.IsValid)
         {
             _userPageService.EditAddress(model);

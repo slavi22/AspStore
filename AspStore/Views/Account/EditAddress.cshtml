@@ -55,6 +55,7 @@
     </form>
 </div>
 
+
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial"/>
@@ -66,6 +67,10 @@
                 data: {id: $("#Id").val()},
                 success: function (res){
                     window.location.href = res;
+                },
+                error: function (){
+                    alert("ERROR 401: UNAUTHORIZED");
+                    window.location.reload();
                 }
             });
         })
