@@ -1,10 +1,7 @@
 using AspStore.Data;
-using AspStore.Models;
 using AspStore.Models.Account;
-using AspStore.Services;
 using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -81,6 +78,7 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Logout()
     {
+        Response.Cookies.Delete("SessionData");
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
@@ -169,12 +167,19 @@ public class AccountController : Controller
     [HttpPost]
     [Authorize(Roles = "User")]
     [Route("/Account/User/Address/New")]
-    public IActionResult AddAddress(AddressModel model)
+    public IActionResult AddAddress(AddressModel model, string? returnUrl)
     {
         if (ModelState.IsValid)
         {
             _userPageService.AddAddress(model, User);
-            return RedirectToAction("Addresses");
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("Addresses");
+            }
         }
         return View();
     }

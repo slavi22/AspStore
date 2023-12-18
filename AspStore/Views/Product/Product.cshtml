@@ -11,3 +11,27 @@
 <h1>ImagePath - @Model.ProductImage.ImagePath</h1>
 <h1>Category Id - @Model.ProductCategoryId</h1>
 
+<form method="post" asp-controller="Cart" asp-action="AddToCart" id="add-to-cart-form">
+    <input type="hidden" name="id" value="@Model.Id"/>
+    <button type="submit" class="btn btn-primary">Add to cart</button>
+</form>
+
+
+@section Scripts
+{
+    <script>
+        $("#add-to-cart-form").submit(function (e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddToCart", "Cart")",
+                data: $(this).serialize(),
+                success: function (res){
+                    console.log(res.url);
+                    window.location.href = res.url;
+                }
+            });
+        })
+    </script>
+}
+

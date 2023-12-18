@@ -1,8 +1,9 @@
-﻿using AspStore.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using AspStore.Data;
+using AspStore.Extensions;
 using AspStore.Models.Errors;
+using AspStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AspStore.Controllers
@@ -12,7 +13,7 @@ namespace AspStore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _dbContext;
-
+        
         public HomeController(ILogger<HomeController> logger, AppDbContext dbContext)
         {
             _logger = logger;

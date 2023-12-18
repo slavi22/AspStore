@@ -36,10 +36,19 @@ namespace AspStore
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IAuthorizationHandler, FirstTimeSetupHandler>();
             builder.Services.AddScoped<IUserPageService, UserPageService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("FirstTimeSetupComplete",
                     policy => policy.Requirements.Add(new FirstTimeSetupRequirement(1)));
+            });
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.MaxAge = TimeSpan.FromDays(14);
+                options.Cookie.IsEssential = true;
+                options.Cookie.Name = "SessionData";
             });
 
             var app = builder.Build();
@@ -58,6 +67,7 @@ namespace AspStore
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",
