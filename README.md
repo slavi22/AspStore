@@ -17,6 +17,7 @@ AspStore is a straightforward e-commerce app for computer components. It lets us
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/slavi22/AspStore.git`
-2. Navigate to the project directory: `cd AspStore`
-3. Install dependencies: `dotnet restore`
+1. Clone the repository: `git clone https://github.com/slavi22/AspStore.git`.
+2. Create an environment variable named "AspStore" to store the Entity Framework connection string.
+3. Navigate to the project directory: `cd AspStore`.
+4. Install dependencies: `dotnet restore`.
