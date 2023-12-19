@@ -49,15 +49,29 @@
                 </div>
                 <div class="row g-0 collapse navbar-collapse">
                     <ul class="navbar-nav">
-                        <div class="col-auto">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                        </div>
-                        <div class="col-auto">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
+                        <div class="dropdown pe-3">
+                            <button class="btn btn-light border-0 bg-transparent dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Browse</button>
+                            <ul class="dropdown-menu main-menu">
+                                <div class="btn-group dropend">
+                                    <a class="nav-link text-dark dropdown-toggle" asp-action="Index" asp-controller="Product">
+                                        Products
+                                    </a>
+                                    <ul class="dropdown-menu sub-menu text-center">
+                                        <li>
+                                            <a class="nav-link text-dark" asp-action="Cpu" asp-controller="Product">Cpus</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-dark" asp-action="Gpu" asp-controller="Product">Gpus</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-dark" asp-action="Ram" asp-controller="Product">RAM</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-dark" asp-action="Motherboard" asp-controller="Product">Motherboards</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ul>
                         </div>
                         <div class="col-auto w-100 flex-shrink-1 d-none d-lg-block d-xl-block d-xxl-block">
                             <li class="nav-item d-flex align-items-center search-bar">
@@ -144,9 +158,15 @@
                                                                 <p class="m-0 product-quantity-hover" data-quantity="@entity.Quantity">@entity.Quantity</p>
                                                                 <i class="bi bi-plus-circle-fill cart-button-quantity-add-hover" data-id="@entity.Product.Id" style="font-size: 18px"></i>
                                                             </div>
-                                                            <p class="m-0 product-price-hover ms-auto" data-initial-price="@entity.InitialPrice">@(entity.InitialPrice*entity.Quantity)</p>
+                                                            <p class="m-0 product-price-hover ms-auto" data-initial-price="@entity.InitialPrice">@(entity.InitialPrice * entity.Quantity)</p>
                                                         </div>
                                                     }
+                                                    <div class="border-top w-100">
+                                                        <div class="mt-2 d-flex gap-1">
+                                                            <a class="btn btn-light border w-50" asp-action="Cart" asp-controller="Cart">Go to cart</a>
+                                                            <a class="btn btn-primary border w-50" asp-action="Checkout" asp-controller="Cart">Checkout</a>
+                                                        </div>
+                                                    </div>
                                                 }
                                             }
                                         </div>
@@ -254,6 +274,16 @@
                 }
             }
         });
+    })
+</script>
+<script>
+    $(".main-menu").hover(function (){
+        $(".sub-menu").addClass("show");
+    })
+    $(".main-menu").on("mouseout", function (){
+        setTimeout(function (){
+            $(".sub-menu").removeClass("show");
+        }, 200);
     })
 </script>
 @await RenderSectionAsync("Scripts", required: false)

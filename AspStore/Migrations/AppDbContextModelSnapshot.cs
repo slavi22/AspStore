@@ -71,6 +71,10 @@ namespace AspStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OrderDetails")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -206,13 +210,13 @@ namespace AspStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1f499b63-67e1-4177-a545-67a9d18a72ec",
+                            Id = "87297792-c19e-445b-8da9-f08899274325",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "92ed71b0-d556-49f9-80cb-362d484966b2",
+                            Id = "0b2daa3f-2096-4e44-89d1-c4c1904b935b",
                             Name = "User",
                             NormalizedName = "USER"
                         });

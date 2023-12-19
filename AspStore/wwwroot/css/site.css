@@ -367,3 +367,12 @@ header,.container{
 .reset {
   all: revert;
 }
+
+.main-menu:hover .sub-menu{
+  display: block;
+  
+}
+
+.sub-menu{
+  transform: translateX(100%) translateY(-10%);
+}

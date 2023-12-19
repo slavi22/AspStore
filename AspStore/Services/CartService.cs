@@ -101,6 +101,7 @@ public class CartService : ICartService
         var order = new OrderModel()
         {
             OrderDetails = orderDetails,
+            OrderDate = DateTime.Now.ToString("dd/MM/yyyy"),
             DeliveryAddress = address,
             TotalPrice = cart.Sum(i => i.Price),
             UserId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User)

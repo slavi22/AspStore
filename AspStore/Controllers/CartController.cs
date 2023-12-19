@@ -1,12 +1,10 @@
 using AspStore.Data;
 using AspStore.Extensions;
-using AspStore.Migrations;
 using AspStore.Services.Interfaces;
 using AspStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace AspStore.Controllers;
 
@@ -15,7 +13,6 @@ public class CartController : Controller
     private readonly AppDbContext _dbContext;
     private readonly ICartService _cartService;
     private readonly UserManager<IdentityUser> _userManager;
-
     public CartController(AppDbContext dbContext, ICartService cartService, UserManager<IdentityUser> userManager)
     {
         _dbContext = dbContext;
@@ -36,12 +33,17 @@ public class CartController : Controller
 
         return View(model);
     }
-
+    
     [HttpPost]
     public IActionResult AddToCart(int id)
     {
-        _cartService.AddToCart(id);
         string redirectLink = Request.GetTypedHeaders().Referer.ToString();
+        if (User.Identity.IsAuthenticated == false)
+        {
+            redirectLink = Url.Action("Login", "Account", new {returnUrl = Request.GetTypedHeaders().Referer.AbsolutePath});
+            return Json(new { url = redirectLink });
+        }
+        _cartService.AddToCart(id);
         return Json(new {url = redirectLink});
     }
 
@@ -88,6 +90,7 @@ public class CartController : Controller
         return Json(new { PartialView = partialView, Quantity = model.Sum(i => i.Quantity) });
     }
 
+    [Authorize]
     [Route("/Cart/Checkout")]
     public IActionResult Checkout()
     {
@@ -121,6 +124,18 @@ public class CartController : Controller
             return Unauthorized();
         }
         _cartService.PlaceOrder(addressId);
-        return Ok();
+        return RedirectToAction("OrderPlaced");
+    }
+
+    [Authorize]
+    [Route("/Cart/Order/Successful")]
+    public IActionResult OrderPlaced()
+    {
+        if (HttpContext.Session.GetComplexData<HashSet<CartViewModel>>("Cart").Count == 0)
+        {
+           return RedirectToAction("Cart");
+        }
+        HttpContext.Response.Cookies.Delete("SessionData");
+        return View();
     }
 }

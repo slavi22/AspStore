@@ -29,6 +29,7 @@ namespace AspStore.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDetails = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeliveryAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -49,8 +50,8 @@ namespace AspStore.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1f499b63-67e1-4177-a545-67a9d18a72ec", null, "Admin", "ADMIN" },
-                    { "92ed71b0-d556-49f9-80cb-362d484966b2", null, "User", "USER" }
+                    { "0b2daa3f-2096-4e44-89d1-c4c1904b935b", null, "User", "USER" },
+                    { "87297792-c19e-445b-8da9-f08899274325", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -68,12 +69,12 @@ namespace AspStore.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "1f499b63-67e1-4177-a545-67a9d18a72ec");
+                keyValue: "0b2daa3f-2096-4e44-89d1-c4c1904b935b");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "92ed71b0-d556-49f9-80cb-362d484966b2");
+                keyValue: "87297792-c19e-445b-8da9-f08899274325");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231217134122_Orders")]
+    [Migration("20231219134049_Orders")]
     partial class Orders
     {
         /// <inheritdoc />
@@ -71,6 +71,10 @@ namespace AspStore.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DeliveryAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderDate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -209,13 +213,13 @@ namespace AspStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1f499b63-67e1-4177-a545-67a9d18a72ec",
+                            Id = "87297792-c19e-445b-8da9-f08899274325",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "92ed71b0-d556-49f9-80cb-362d484966b2",
+                            Id = "0b2daa3f-2096-4e44-89d1-c4c1904b935b",
                             Name = "User",
                             NormalizedName = "USER"
                         });
