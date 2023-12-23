@@ -84,7 +84,7 @@ else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["Show
                 }
                 @if (Model.CurrentRange > Model.InitialRange)
                 {
-                    if (Model.CurrentRange < Model.TotalPages || Model.PageIndex < Model.CurrentRange)
+                    if (Model.CurrentRange <= Model.TotalPages || Model.PageIndex <= Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
                     }
@@ -162,7 +162,7 @@ else if (TempData["ShowProductSuccessfullyEdited"]!=null && (bool)TempData["Show
                 }
                 @if (Model.CurrentRange > Model.InitialRange)
                 {
-                    if (Model.CurrentRange < Model.TotalPages || Model.PageIndex < Model.CurrentRange)
+                    if (Model.CurrentRange <= Model.TotalPages || Model.PageIndex <= Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
                     }

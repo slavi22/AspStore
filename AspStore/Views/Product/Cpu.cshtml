@@ -100,7 +100,7 @@ else if (TempData["ShowProductSuccessfullyDeleted"] != null && (bool)TempData["S
                 }
                 @if (Model.CurrentRange > Model.InitialRange)
                 {
-                    if (Model.CurrentRange < Model.TotalPages || Model.PageIndex < Model.CurrentRange)
+                    if (Model.CurrentRange <= Model.TotalPages || Model.PageIndex <= Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
                     }
@@ -178,7 +178,7 @@ else if (TempData["ShowProductSuccessfullyDeleted"] != null && (bool)TempData["S
                 }
                 @if (Model.CurrentRange > Model.InitialRange)
                 {
-                    if (Model.CurrentRange < Model.TotalPages || Model.PageIndex < Model.CurrentRange)
+                    if (Model.CurrentRange <= Model.TotalPages || Model.PageIndex <= Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
                     }

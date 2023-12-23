@@ -25,6 +25,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="Views\Search\" />
     <Folder Include="wwwroot\images\products\" />
   </ItemGroup>
 

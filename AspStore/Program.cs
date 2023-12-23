@@ -38,6 +38,7 @@ namespace AspStore
             builder.Services.AddScoped<IUserPageService, UserPageService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped<ISearchService, SearchService>();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("FirstTimeSetupComplete",
