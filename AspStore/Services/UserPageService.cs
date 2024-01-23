@@ -10,14 +10,16 @@ public class UserPageService : IUserPageService
 {
     private readonly AppDbContext _dbContext;
     private readonly UserManager<IdentityUser> _userManager;
+
     public UserPageService(AppDbContext dbContext, UserManager<IdentityUser> userManager)
     {
         _dbContext = dbContext;
         _userManager = userManager;
     }
+
     public void AddAddress(AddressModel model, ClaimsPrincipal user)
     {
-        if (_dbContext.UserAddress.Any()==false)
+        if (_dbContext.UserAddress.Any() == false)
         {
             model.Id = 1;
         }
@@ -25,8 +27,8 @@ public class UserPageService : IUserPageService
         {
             var lastRecordId = _dbContext.UserAddress.OrderByDescending(i => i.Id).FirstOrDefault().Id;
             model.Id = lastRecordId + 1;
-
         }
+
         var userId = _userManager.GetUserId(user);
         model.UserId = userId;
         _dbContext.UserAddress.Add(model);
@@ -41,7 +43,6 @@ public class UserPageService : IUserPageService
         entity.City = model.City;
         entity.Address = model.Address;
         _dbContext.SaveChanges();
-
     }
 
     public void DeleteAddress(int id)

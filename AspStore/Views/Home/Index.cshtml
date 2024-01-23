@@ -1,5 +1,7 @@
-﻿@{
+﻿@model List<AspStore.Models.Product.ProductModel>;
+@{
     ViewData["Title"] = "Home Page";
+    var actions = new List<string>(ViewData["actions"] as List<string>);
 }
 
 <div class="carousel slide ms-auto me-auto shadow-sm rounded" data-bs-interval="3000" data-bs-ride="carousel">
@@ -29,6 +31,14 @@
     </button>
 </div>
 
-<div>
-    <h1 class="mt-3">Add recently added products panel here</h1>
+<div class="col-lg-12 col-sm-auto d-flex flex-wrap mt-5 justify-content-center">
+    @foreach (var product in Model)
+    {
+        <div class="product-box bg-white border border-3 gx-1 d-flex align-items-center">
+            <a class="text-decoration-none" asp-action="@(product.ProductCategoryId == 1 ? actions[0] : product.ProductCategoryId == 2 ? actions[1] : product.ProductCategoryId == 3 ? actions[2] : product.ProductCategoryId == 4 ? actions[3] : null)" asp-controller="Product" asp-route-id="@product.Id">
+                <img class="product-image" src="@product.ProductImage.ImagePath">
+                <div class="text-dark text-center">@product.Name</div>
+            </a>
+        </div>
+    }
 </div>

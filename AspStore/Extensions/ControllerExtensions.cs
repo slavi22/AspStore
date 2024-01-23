@@ -7,28 +7,24 @@ namespace AspStore.Extensions;
 
 public static class ControllerExtensions
 {
-    //render view as a string (can be used to send it as a json with other things
+    //render view as a string (can be used to send it as a json with other things)
     //https://stackoverflow.com/a/50024209
-    public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model, bool partial = false)
+    public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model,
+        bool partial = false)
     {
-        if (string.IsNullOrEmpty(viewName))
-        {
-            viewName = controller.ControllerContext.ActionDescriptor.ActionName;
-        }
+        if (string.IsNullOrEmpty(viewName)) viewName = controller.ControllerContext.ActionDescriptor.ActionName;
 
         controller.ViewData.Model = model;
 
         using (var writer = new StringWriter())
         {
-            IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-            ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, !partial);
+            IViewEngine viewEngine =
+                controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+            var viewResult = viewEngine.FindView(controller.ControllerContext, viewName, !partial);
 
-            if (viewResult.Success == false)
-            {
-                return $"A view with the name {viewName} could not be found";
-            }
+            if (viewResult.Success == false) return $"A view with the name {viewName} could not be found";
 
-            ViewContext viewContext = new ViewContext(
+            var viewContext = new ViewContext(
                 controller.ControllerContext,
                 viewResult.View,
                 controller.ViewData,

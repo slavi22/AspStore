@@ -2,10 +2,9 @@
     ViewData["Title"] = "UserPage";
 }
 
-<h1>UserPage</h1>
-<hr style="width: 15%"/>
-<div class="row flex-lg-nowrap flex-lg-row flex-sm-column">
-    <a class="col-lg-5 col-sm-auto text-dark text-decoration-none fs-3" asp-action="Addresses">
-        Addresses
-    </a>
+<div class="row flex-row">
+    <partial name="UserPageBase" view-data='@new ViewDataDictionary(ViewData) { { "PageTitle", ViewData["Title"] } }'/>
+    <div class="col-lg-9 col-sm-auto d-flex justify-content-center">
+        <h1>Hello <span class="text-decoration-underline underline">@User.Identity.Name</span>!</h1>
+    </div>
 </div>

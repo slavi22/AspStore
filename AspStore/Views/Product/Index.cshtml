@@ -8,7 +8,7 @@
     <div class="col-lg-3 col-sm-auto">
         search-bar
     </div>
-    <div class="col-lg-9 d-flex flex-xxl-nowrap flex-wrap" >
+    <div class="col-lg-9 d-flex flex-xxl-nowrap flex-wrap">
         @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
         {
             <a asp-action="Add" asp-controller="Product" class="product-box-add nav-link text-dark col-auto d-flex align-items-center justify-content-center bg-white border border-3">

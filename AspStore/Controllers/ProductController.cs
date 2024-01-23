@@ -1,4 +1,3 @@
-using System.Text.Json;
 using System.Web;
 using AspStore.Data;
 using AspStore.Models.Product;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace AspStore.Controllers;
 
@@ -298,7 +296,7 @@ public class ProductController : Controller
             Price = Convert.ToDecimal(data["Price"]),
             ProductCategoryId = Convert.ToInt32(data["ProductCategoryId"])
         };
-        //keep the existing image if the user hasn't uploaded a enw one
+        //keep the existing image if the user hasn't uploaded a new one
         if (image == null)
         {
             model.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i =>

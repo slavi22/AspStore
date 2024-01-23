@@ -2,7 +2,6 @@ using AspStore.Data;
 using AspStore.Models.Product;
 using AspStore.Pagination;
 using AspStore.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspStore.Services;

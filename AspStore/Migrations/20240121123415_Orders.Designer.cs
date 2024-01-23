@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AspStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231219134049_Orders")]
+    [Migration("20240121123415_Orders")]
     partial class Orders
     {
         /// <inheritdoc />
@@ -79,6 +79,14 @@ namespace AspStore.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Recipient")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -213,13 +221,13 @@ namespace AspStore.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "87297792-c19e-445b-8da9-f08899274325",
+                            Id = "33a44b8a-e17c-4fcb-a53d-56a499c430fe",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0b2daa3f-2096-4e44-89d1-c4c1904b935b",
+                            Id = "6ebafd6b-0a32-4af7-b55f-3fcecf725ce2",
                             Name = "User",
                             NormalizedName = "USER"
                         });

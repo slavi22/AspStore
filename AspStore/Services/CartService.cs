@@ -1,7 +1,6 @@
 using AspStore.Data;
 using AspStore.Extensions;
 using AspStore.Models.Cart;
-using AspStore.Models.Product;
 using AspStore.Services.Interfaces;
 using AspStore.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -27,16 +26,14 @@ public class CartService : ICartService
         _session = _httpContextAccessor.HttpContext.Session;
         if (_signInManager.IsSignedIn(_httpContextAccessor.HttpContext.User) &&
             _session.GetComplexData<HashSet<CartViewModel>>("Cart") == null)
-        {
             _session.SetComplexData("Cart", new HashSet<CartViewModel>());
-        }
     }
 
     public void AddToCart(int id)
     {
         var product = _dbContext.Products.FirstOrDefault(p => p.Id == id);
         var cart = _session.GetComplexData<HashSet<CartViewModel>>("Cart");
-        var cartItem = new CartViewModel()
+        var cartItem = new CartViewModel
             { Product = product, Quantity = 1, Price = product.Price, InitialPrice = product.Price };
         if (cart.Any(i => i.Product.Id == cartItem.Product.Id))
         {
@@ -96,13 +93,17 @@ public class CartService : ICartService
     {
         var cart = _session.GetComplexData<HashSet<CartViewModel>>("Cart");
         var orderDetails = JsonConvert.SerializeObject(cart.Select(i => new
-            { Quantity = i.Quantity, ProductId = i.Product.Id, Price = i.Price }));
-        var address = _dbContext.UserAddress.FirstOrDefault(i => i.Id == addressId).Address;
-        var order = new OrderModel()
+        {
+            i.Quantity, ProductId = i.Product.Id, i.Price
+        }));
+        var addressModel = _dbContext.UserAddress.FirstOrDefault(i => i.Id == addressId);
+        var order = new OrderModel
         {
             OrderDetails = orderDetails,
             OrderDate = DateTime.Now.ToString("dd/MM/yyyy"),
-            DeliveryAddress = address,
+            DeliveryAddress = addressModel.Address,
+            Recipient = addressModel.Recipient,
+            PhoneNumber = addressModel.PhoneNumber,
             TotalPrice = cart.Sum(i => i.Price),
             UserId = _userManager.GetUserId(_httpContextAccessor.HttpContext.User)
         };

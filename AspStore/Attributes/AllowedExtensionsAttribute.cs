@@ -18,10 +18,7 @@ public class AllowedExtensionsAttribute : ValidationAttribute
         if (file != null)
         {
             var extension = Path.GetExtension(file.FileName);
-            if (!_extensions.Contains(extension.ToLower()))
-            {
-                return new ValidationResult(GetErrorMessage());
-            }
+            if (!_extensions.Contains(extension.ToLower())) return new ValidationResult(GetErrorMessage());
         }
 
         return ValidationResult.Success;
@@ -29,6 +26,6 @@ public class AllowedExtensionsAttribute : ValidationAttribute
 
     public string GetErrorMessage()
     {
-        return $"This photo extension is not allowed!";
+        return "This photo extension is not allowed!";
     }
 }

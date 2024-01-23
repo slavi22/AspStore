@@ -16,8 +16,8 @@ function togglePasswordIcons() {
     });
 }
 
-function bindSearchBarsValue(){
-    $(".search-bar input").on("change", function (){
+function bindSearchBarsValue() {
+    $(".search-bar input").on("change", function () {
         $(".search-bar input").val($(this).val());
     });
 }

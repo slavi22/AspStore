@@ -1,5 +1,3 @@
-using AspStore.Models.Product;
-
 namespace AspStore.Services.Interfaces;
 
 public interface ICartService

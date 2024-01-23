@@ -27,44 +27,41 @@ public class ProductService : IProductService
     {
         if (oldId != null && _dbContext.ProductsImages.Any(i => i.Name == file.FileName) == false)
         {
-            string uploadPath = @$".\wwwroot\images\products\{file.FileName}";
-            string filePath = @$"/images/products/{file.FileName}";
+            var uploadPath = @$".\wwwroot\images\products\{file.FileName}";
+            var filePath = @$"/images/products/{file.FileName}";
             using (var stream = new FileStream(uploadPath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
-                var entity = _dbContext.ProductsImages.FirstOrDefault(i=>i.Id == oldId);
+                var entity = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == oldId);
                 entity.Name = file.FileName;
                 entity.ImagePath = filePath;
                 await _dbContext.SaveChangesAsync();
             }
+
             return true;
         }
+
         if (oldId == null && _dbContext.ProductsImages.Any(i => i.Name == file.FileName) == false)
         {
             var modelId = _dbContext.ProductsImages.OrderByDescending(i => i.Id).FirstOrDefault();
-            int id = 1;
-            if (modelId != null)
-            {
-                id = modelId.Id + 1;
-            }
+            var id = 1;
+            if (modelId != null) id = modelId.Id + 1;
 
             //string filePath = Path.Combine(_webHostEnvironment.WebRootPath, @$"images\products\{file.FileName}");
-            string uploadPath = @$".\wwwroot\images\products\{file.FileName}";
-            string filePath = @$"/images/products/{file.FileName}";
+            var uploadPath = @$".\wwwroot\images\products\{file.FileName}";
+            var filePath = @$"/images/products/{file.FileName}";
             using (var stream = new FileStream(uploadPath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
-                var imageModel = new ProductImageModel() { Id = id, ImagePath = filePath, Name = file.FileName };
+                var imageModel = new ProductImageModel { Id = id, ImagePath = filePath, Name = file.FileName };
                 await _dbContext.ProductsImages.AddAsync(imageModel);
                 await _dbContext.SaveChangesAsync();
             }
 
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public async Task<bool> Delete(int id)
@@ -74,16 +71,14 @@ public class ProductService : IProductService
         {
             return false;
         }
-        else
-        {
-            var productImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == product.ProductImageId);
-            _dbContext.Products.Remove(product);
-            await _dbContext.SaveChangesAsync();
-            _dbContext.ProductsImages.Remove(productImage);
-            await _dbContext.SaveChangesAsync();
-            DeleteImageFromServer(productImage.Name);
-            return true;
-        }
+
+        var productImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == product.ProductImageId);
+        _dbContext.Products.Remove(product);
+        await _dbContext.SaveChangesAsync();
+        _dbContext.ProductsImages.Remove(productImage);
+        await _dbContext.SaveChangesAsync();
+        DeleteImageFromServer(productImage.Name);
+        return true;
     }
 
     public async Task<bool> Edit(ProductModel model, IFormFile image, int id)
@@ -94,7 +89,7 @@ public class ProductService : IProductService
         {
             if (entity != null)
             {
-                var newEntity = new ProductModel()
+                var newEntity = new ProductModel
                 {
                     Id = model.Id,
                     Name = model.Name,
@@ -103,11 +98,8 @@ public class ProductService : IProductService
                     ProductImageId = entity.ProductImageId,
                     ProductCategoryId = model.ProductCategoryId
                 };
-                string oldImageName = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == entity.ProductImageId).Name;
-                if (await UploadImage(image, entity.ProductImageId) == false)
-                {
-                    return false;
-                }
+                var oldImageName = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == entity.ProductImageId).Name;
+                if (await UploadImage(image, entity.ProductImageId) == false) return false;
                 DeleteImageFromServer(oldImageName);
                 _dbContext.Products.Remove(entity);
                 await _dbContext.SaveChangesAsync();
@@ -119,7 +111,7 @@ public class ProductService : IProductService
         {
             if (entity != null)
             {
-                var newEntity = new ProductModel()
+                var newEntity = new ProductModel
                 {
                     Id = model.Id,
                     Name = model.Name,
@@ -140,11 +132,9 @@ public class ProductService : IProductService
 
     public List<ProductModel> GetProductsByCategory(int categoryId)
     {
-        var products = _dbContext.Products.Where(p=>p.ProductCategoryId==categoryId).ToList();
+        var products = _dbContext.Products.Where(p => p.ProductCategoryId == categoryId).ToList();
         foreach (var product in products)
-        {
             product.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == product.ProductImageId);
-        }
         return products;
     }
 

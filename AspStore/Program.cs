@@ -4,10 +4,8 @@ using AspStore.Policies.Requirements;
 using AspStore.Services;
 using AspStore.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace AspStore
 {
@@ -39,6 +37,7 @@ namespace AspStore
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.AddScoped<ISearchService, SearchService>();
+            builder.Services.AddScoped<IOrderHistoryService, OrderHistoryService>();
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("FirstTimeSetupComplete",

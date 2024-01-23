@@ -6,7 +6,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
 <h1>@(ViewData["AddText"] == null ? "Add" : ViewData["AddText"])</h1>
 <div class="d-flex justify-content-center align-items-center add-product-container">
-    <form class="shadow-sm rounded bg-body-tertiary" method="post" enctype="multipart/form-data" id="add-product-form" onsubmit="handleSubmit()">
+    <form class="shadow-sm rounded bg-white" method="post" enctype="multipart/form-data" id="add-product-form" onsubmit="handleSubmit()">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="mb-3">
             <div>

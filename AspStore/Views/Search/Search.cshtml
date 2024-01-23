@@ -2,7 +2,7 @@
 @inject SignInManager<IdentityUser> signInManager;
 @{
     ViewData["Title"] = "Search";
-    List<string> list = new List<string>(ViewData["actions"] as List<string>);
+    var list = new List<string>(ViewData["actions"] as List<string>);
 }
 <div class="modal fade" tabindex="-1" id="modal-delete" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog">
@@ -47,6 +47,7 @@
                     </a>
                 </div>
             }
+
             <div class="col-12 mt-3 mb-3 d-flex gap-2 justify-content-center">
                 @if (Model.PageIndex != 1)
                 {
@@ -58,12 +59,14 @@
                     {
                         <span class="align-self-center">...</span>
                     }
-                    for (int i = Model.CurrentRange - 9; i <= Model.CurrentRange - (Model.CurrentRange - Model.TotalPages); i++)
+
+                    for (var i = Model.CurrentRange - 9; i <= Model.CurrentRange - (Model.CurrentRange - Model.TotalPages); i++)
                     {
-                        if (i == (Model.CurrentRange - 9) + 10)
+                        if (i == Model.CurrentRange - 9 + 10)
                         {
                             break;
                         }
+
                         if (i == Model.CurrentRange - 9 && !Context.Request.QueryString.HasValue)
                         {
                             <a class="page-button text-decoration-none text-light btn btn-dark border border-1" asp-action="Search" asp-controller="Home" asp-route-page="@i" asp-route-searchString="@Context.Request.Query["searchString"]">@i</a>
@@ -77,6 +80,7 @@
                             <a class="page-button text-decoration-none text-dark btn btn-light border border-1" asp-action="Search" asp-controller="Home" asp-route-page="@i" asp-route-searchString="@Context.Request.Query["searchString"]">@i</a>
                         }
                     }
+
                     if (Model.TotalPages > Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
@@ -84,12 +88,13 @@
                 }
                 else
                 {
-                    for (int i = 1; i <= Model.TotalPages; i++)
+                    for (var i = 1; i <= Model.TotalPages; i++)
                     {
-                        if (i == (Model.CurrentRange - 9) + 10)
+                        if (i == Model.CurrentRange - 9 + 10)
                         {
                             break;
                         }
+
                         if (i == 1 && !Context.Request.QueryString.HasValue)
                         {
                             <a class="page-button text-decoration-none text-light btn btn-dark border border-1" asp-action="Search" asp-controller="Home" asp-route-page="@i" asp-route-searchString="@Context.Request.Query["searchString"]">@i</a>
@@ -103,6 +108,7 @@
                             <a class="page-button text-decoration-none text-dark btn btn-light border border-1" asp-action="Search" asp-controller="Home" asp-route-page="@i" asp-route-searchString="@Context.Request.Query["searchString"]">@i</a>
                         }
                     }
+
                     if (Model.TotalPages > Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
@@ -125,6 +131,7 @@
                     </a>
                 </div>
             }
+
             <div class="col-12 mt-3 mb-3 d-flex gap-2 justify-content-center">
                 @if (Model.PageIndex != 1)
                 {
@@ -136,12 +143,14 @@
                     {
                         <span class="align-self-center">...</span>
                     }
-                    for (int i = Model.CurrentRange - 9; i <= Model.CurrentRange - (Model.CurrentRange - Model.TotalPages); i++)
+
+                    for (var i = Model.CurrentRange - 9; i <= Model.CurrentRange - (Model.CurrentRange - Model.TotalPages); i++)
                     {
-                        if (i == (Model.CurrentRange - 9) + 10)
+                        if (i == Model.CurrentRange - 9 + 10)
                         {
                             break;
                         }
+
                         if (i == Model.CurrentRange - 9 && !Context.Request.QueryString.HasValue)
                         {
                             <a class="page-button text-decoration-none text-light btn btn-dark border border-1" asp-action="Search" asp-controller="Home" asp-route-searchString="@Context.Request.Query["searchString"]" asp-route-page="@i">@i</a>
@@ -155,6 +164,7 @@
                             <a class="page-button text-decoration-none text-dark btn btn-light border border-1" asp-action="Search" asp-controller="Home" asp-route-searchString="@Context.Request.Query["searchString"]" asp-route-page="@i">@i</a>
                         }
                     }
+
                     if (Model.TotalPages > Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>
@@ -162,12 +172,13 @@
                 }
                 else
                 {
-                    for (int i = 1; i <= Model.TotalPages; i++)
+                    for (var i = 1; i <= Model.TotalPages; i++)
                     {
-                        if (i == (Model.CurrentRange - 9) + 10)
+                        if (i == Model.CurrentRange - 9 + 10)
                         {
                             break;
                         }
+
                         if (i == 1 && !Context.Request.QueryString.HasValue)
                         {
                             <a class="page-button text-decoration-none text-light btn btn-dark border border-1" asp-action="Search" asp-controller="Home" asp-route-searchString="@Context.Request.Query["searchString"]" asp-route-page="@i">@i</a>
@@ -181,6 +192,7 @@
                             <a class="page-button text-decoration-none text-dark btn btn-light border border-1" asp-action="Search" asp-controller="Home" asp-route-searchString="@Context.Request.Query["searchString"]" asp-route-page="@i">@i</a>
                         }
                     }
+
                     if (Model.TotalPages > Model.CurrentRange)
                     {
                         <span class="align-self-center">...</span>

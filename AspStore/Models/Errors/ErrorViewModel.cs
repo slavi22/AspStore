@@ -1,9 +1,8 @@
-namespace AspStore.Models.Errors
-{
-    public class ErrorViewModel
-    {
-        public string? RequestId { get; set; }
+namespace AspStore.Models.Errors;
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-    }
+public class ErrorViewModel
+{
+    public string? RequestId { get; set; }
+
+    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 }

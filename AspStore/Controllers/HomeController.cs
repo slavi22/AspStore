@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using AspStore.Data;
-using AspStore.Extensions;
 using AspStore.Models.Errors;
-using AspStore.Models.Product;
-using AspStore.Pagination;
 using AspStore.Services.Interfaces;
-using AspStore.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspStore.Controllers
 {
@@ -28,7 +23,13 @@ namespace AspStore.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var latestProducts = _dbContext.Products.OrderByDescending(i => i.Id).Take(5).ToList();
+            ViewData["actions"] = new List<string>() { "Cpu", "Gpu", "Ram", "Motherboard" };
+            foreach (var item in latestProducts)
+            {
+                item.ProductImage = _dbContext.ProductsImages.FirstOrDefault(i => i.Id == item.ProductImageId);
+            }
+            return View(latestProducts);
         }
 
         public IActionResult Privacy()
